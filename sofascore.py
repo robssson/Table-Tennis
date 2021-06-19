@@ -23,11 +23,11 @@ def scrape_data(date):
     url = f'https://api.sofascore.com/api/v1/sport/table-tennis/scheduled-events/{date}'
     sofascore_adapter = HTTPAdapter(max_retries=5)
     session = requests.Session()
-    session.mount(url, sofascore_adapter)
+    session.mount('https://', sofascore_adapter)
     try:
-        json_data = session.get(url, timeout=10).json()
-        # json_data = json.loads(data.content)['events']
-        return json_data
+        data = session.get(url, timeout=5)
+        json_data = json.loads(data.content)
+        return json_data['events']
     except ConnectionError as ce:
         print(ce)
 
@@ -63,6 +63,7 @@ def parse_data(matches, date):
             else:
                 insert_row_to_db(con, date, player_2, player_1, tournament_name,
                                  player_2_score, player_1_score, number_of_sets, avg_of_points)
+    print("Data has been inserted to DB.")
     close_connection(con)
 
 
