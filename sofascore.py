@@ -19,21 +19,31 @@ def generate_dates():
     return lst_of_dates
 
 
-def scrape_data(date):
-    url = f'https://api.sofascore.com/api/v1/sport/table-tennis/scheduled-events/{date}'
+def make_http_request(url):
     sofascore_adapter = HTTPAdapter(max_retries=5)
     session = requests.Session()
     session.mount('https://', sofascore_adapter)
     try:
         data = session.get(url, timeout=5)
         json_data = json.loads(data.content)
-        return json_data['events']
+        return json_data
     except ConnectionError as ce:
         print(ce)
 
 
-def parse_data(matches, date):
+def scrape_data(date):
+    url = f'https://api.sofascore.com/api/v1/sport/table-tennis/scheduled-events/{date}'
+    return make_http_request(url)
+
+
+def get_match_stats(id):
+    url = f'https://api.sofascore.com/api/v1/event/{id}/statistics'
+    return make_http_request(url)
+
+
+def parse_matches_data(matches, date):
     con = connect_to_db()
+    matches = matches['events']
     for match in matches:
         status = get_value(match, 'status', default_key='code')
         if status == 100: # status equals 100 means, that the match is ended
@@ -72,5 +82,5 @@ if __name__ == "__main__":
     for day in dates:
         print(f"Scraping data for {day} in progress...")
         matches = scrape_data(day)
-        parse_data(matches, day)
+        parse_matches_data(matches, day)
 
