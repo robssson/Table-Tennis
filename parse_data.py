@@ -18,8 +18,9 @@ def parse_matches_data(matches, date):
             player_1_score = get_value(match, 'homeScore', default_key='display')
             player_2 = get_value(match, 'awayTeam', default_key='name')
             player_2_score = get_value(match, 'awayScore', default_key='display')
-            number_of_sets = player_1_score + player_2_score
-            for i in range(number_of_sets):
+            sets = player_1_score + player_2_score
+            match_id = get_value(match, 'id')
+            for i in range(sets):
                 try:
                     points += get_value(match, 'homeScore', default_key=f'period{i+1}')
                     points += get_value(match, 'awayScore', default_key=f'period{i+1}')
@@ -31,11 +32,11 @@ def parse_matches_data(matches, date):
             except Exception as E:
                 break
             if int(player_1_score) > int(player_2_score):
-                insert_row_to_db(con, date, player_1, player_2, tournament_name,
-                                 player_1_score, player_2_score, number_of_sets, avg_of_points)
+                insert_row_to_db(con, date, match_id, tournament_name, player_1, player_2,
+                                 player_1_score, player_2_score, sets, avg_of_points)
             else:
-                insert_row_to_db(con, date, player_2, player_1, tournament_name,
-                                 player_2_score, player_1_score, number_of_sets, avg_of_points)
+                insert_row_to_db(con, date, match_id, tournament_name, player_2, player_1,
+                                 player_2_score, player_1_score, sets, avg_of_points)
     print("Data has been inserted to DB.")
     close_connection(con)
 
