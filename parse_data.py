@@ -1,5 +1,7 @@
 from connect_with_db import connect_to_db, insert_row_to_db, close_connection
 from get_functions import get_value
+from collections import defaultdict
+import json
 
 
 def parse_matches_data(matches, date):
@@ -39,4 +41,25 @@ def parse_matches_data(matches, date):
 
 
 def parse_match_stats(stats):
-    print(stats)
+    json_dict = defaultdict(list)
+    stats_dct = {}
+    stats = stats['statistics']
+    for period in stats:
+        period_name = period['period']
+        if period_name not in 'ALL':
+            stats_dct['period_name'] = period_name
+            for group in period['groups']:
+                if group['groupName'] == "Points":
+                    statistics_items = group['statisticsItems']
+                    for stat_item in statistics_items:
+                        if stat_item['name'] == 'Points won':
+                            stats_dct['home_points'] = stat_item['home']
+                            stats_dct['away_points'] = stat_item['away']
+                        elif stat_item['name'] == 'Biggest lead':
+                            stats_dct['biggest_lead_home'] = stat_item['home']
+                            stats_dct['biggest_lead_away'] = stat_item['away']
+                    stats_dct_copy = stats_dct.copy()
+                    json_dict['sets'].append(stats_dct_copy)
+    return json.dumps(json_dict, indent=4)
+
+

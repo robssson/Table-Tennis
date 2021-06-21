@@ -41,11 +41,13 @@ def get_match_stats(id):
 
 
 if __name__ == "__main__":
-    dates = generate_dates()
-    for day in dates:
-        print(f"Scraping data for {day} in progress...")
-        matches = scrape_data(day)
-        parse_matches_data(matches, day)
+    # dates = generate_dates()
+    # for day in dates:
+    #     print(f"Scraping data for {day} in progress...")
+    #     matches = scrape_data(day)
+    #     parse_matches_data(matches, day)
     match = get_match_stats('9548291')
     match_stats = parse_match_stats(match)
+    print(match_stats)
+
 
