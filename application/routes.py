@@ -1,8 +1,10 @@
 from application import app
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, Response
 from sofascore import get_match_stats, parse_match_stats
 import json
 
+
+data = [{"data": {"name": "Tomek"}}]
 
 @app.route("/")
 @app.route("/index")
@@ -21,7 +23,7 @@ def tournament_stats():
     return render_template('tournament_stats.html', tournament=True)
 
 
-@app.route("/tools/match_stats")
+@app.route("/tools/match_stats", methods=["GET"])
 def match_stats(display=False):
     display = request.args.get('display')
     if display:
@@ -34,4 +36,10 @@ def match_stats(display=False):
         return render_template('match_stats.html', display=display, match=True)
 
 
-
+@app.route('/api/')
+@app.route('/api/<idx>')
+def api(idx=None):
+    if idx != None:
+        return "Hello world!"
+    else:
+        return Response(json.dumps(data), mimetype="application/json")
