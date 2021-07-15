@@ -10,7 +10,7 @@ from parse_data import parse_matches_data, parse_match_stats
 def generate_dates():
     lst_of_dates = []
     start_date = date(2021, 1, 1)
-    end_date = date(2021, 6, 20)
+    end_date = date(2021, 7, 11)
     delta = end_date - start_date
     for i in range(delta.days+1):
         day = start_date + timedelta(days=i)
@@ -41,13 +41,13 @@ def get_match_stats(id):
 
 
 if __name__ == "__main__":
-    # dates = generate_dates()
-    # for day in dates:
-    #     print(f"Scraping data for {day} in progress...")
-    #     matches = scrape_data(day)
-    #     parse_matches_data(matches, day)
-    match = get_match_stats('9548291')
-    match_stats = parse_match_stats(match)
-    print(match_stats)
+    dates = generate_dates()
+    for day in dates:
+        print(f"Scraping data for {day} in progress...")
+        matches = scrape_data(day)
+        parse_matches_data(matches, day)
+    # match = get_match_stats('9548291')
+    # match_stats = parse_match_stats(match)
+    # print(match_stats)
 
 
