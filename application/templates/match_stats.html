@@ -6,18 +6,47 @@
                <h4> In this tab, you can view data for one specific match.</h4>
            </div>
         </div>
-
-        <form>
+        {% if not display %}
+        <form action="{{url_for('match_stats')}}" method="GET">
           <div class="form-group">
             <label for="match_id">Please provide match id:</label>
-            <input type="text" class="form-control" id="match_id" aria-describedby="matchId" placeholder="Enter match id">
+            <input type="text" class="form-control" name="match_id" id="match_id" aria-describedby="matchId" placeholder="Enter match id">
+              <input hidden type="text" name="display" id="display" value="True">
           </div>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Display data</button>
         </form>
+        {% endif %}
+        {% if display %}
+            <h3>MATCH_ID: {{ match_id }}</h3>
 
-        {% for data in data %}
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Period name</th>
+                <th scope="col">Home points</th>
+                <th scope="col">Away points</th>
+                <th scope="col">Biggest Lead Home</th>
+                <th scope="col">Biggest Lead Away</th>
+            </tr>
+            </thead>
+            <tbody>
 
+            <!-- Construct the rest of courses here -->
+            {% for data in matchStats %}
+            <tr>
+                <td scope='row'>{{ data["period_name"] }}</td>
+                <td>{{ data["home_points"] }}</td>
+                <td>{{ data["away_points"] }}</td>
+                <td>{{ data["biggest_lead_home"] }}</td>
+                <td>{{ data["biggest_lead_away"] }}</td>
+            </tr>
+            {% endfor %}
 
-        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        {% endif %}
+
 {% endblock %}
