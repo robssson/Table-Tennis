@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+        <div class="row">
+           <div class="col-md-12 text_center">
+               <h4> In this tab, you can view data for one specific match.</h4>
+           </div>
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label for="match_id">Please provide match id:</label>
+            <input type="text" class="form-control" id="match_id" aria-describedby="matchId" placeholder="Enter match id">
+          </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% for data in data %}
+
+
+        {% endfor %}
+{% endblock %}

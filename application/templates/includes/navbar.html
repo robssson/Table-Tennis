@@ -1,0 +1,20 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">TT STATS</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="{% if index %} active {% endif %}"><a href="{{ url_for('index') }}">Homepage</a></li>
+             <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tools
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li class="{% if whole_data %} active {% endif %}"><a href="{{ url_for('global_data') }}">Global stats</a></li>
+                    <li class="{% if tournament %} active {% endif %}"><a href="{{ url_for('tournament_stats') }}">Tournament stats</a></li>
+                    <li class="{% if match %} active {% endif %}"><a href="{{ url_for('match_stats') }}">Match stats</a></li>
+                </ul>
+             </li>
+            <li><a href="https://www.linkedin.com/in/tomekradecki/" target="_blank">LinkedIn</a></li>
+        </ul>
+    </div>
+</nav>
