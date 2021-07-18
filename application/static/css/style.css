@@ -6,8 +6,10 @@ html, body {
 }
 
 .navbar-fixed-bottom {
+    position: relative;
 }
 
 a{
   color: #0dcaf0;
 }
+

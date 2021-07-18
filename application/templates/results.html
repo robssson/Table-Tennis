@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+        <div class="row">
+           <div class="col-md-12 text_center">
+               <h4> Data from db.</h4>
+               {% for result in results %}
+               <dl>
+                   <dt>Tournament name: {{ result.tournament_name }}</dt>
+                   <dt>Player1: {{ result.player1 }}</dt>
+                   <dt>Player2: {{ result.player2 }}</dt>
+                   <dt>Player1_score: {{ result.player1_score }}</dt>
+                   <dt>Player2_score: {{ result.player2_score }}</dt>
+               </dl>
+               {% else %}
+               <h3> No results yet!</h3>
+               {% endfor %}
+           </div>
+        </div>
+
+{% endblock %}
+
+
