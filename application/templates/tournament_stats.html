@@ -5,5 +5,17 @@
            <div class="col-md-12 text_center">
                <h4> In this tab, you can view data from one specific tournament.</h4>
            </div>
+         </div>
+        <form action="{{url_for('tournament_stats')}}" method="GET">
+        Choose tournament:<SELECT name="tour" style="font-family:verdana"/>
+        {% for tournament in tournament_names %}
+            <option value={{tournament[0]}}>{{tournament[0]}}</option>
+        {% endfor %}<div>
+            <input hidden type="text" name="display" id="display" value="True">
+        <input type="submit" value="Submit">
         </div>
+        </form>
+        {% if display %}
+        <h5>Chosen tour: {{ tournament_name }}</h5>
+        {% endif %}
 {% endblock %}

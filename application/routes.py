@@ -2,7 +2,7 @@ from application import app, db
 from flask import render_template, jsonify, request, Response
 from sofascore import get_match_stats, parse_match_stats
 from application.models import Results
-from connect_with_db import connect_to_db, close_connection, query_for_data
+from connect_with_db import connect_to_db, close_connection, query_for_data, query_for_tournaments
 import json
 
 
@@ -21,14 +21,24 @@ def global_data():
     con = connect_to_db()
     res = query_for_data(con)
     results = res[0]
+    results = results[:100]
     counts = res[1]
     close_connection(con)
     return render_template('global_data.html', results=results, counts=counts, whole_data=True)
 
 
 @app.route("/tools/tournament_stats")
-def tournament_stats():
-    return render_template('tournament_stats.html', tournament=True)
+def tournament_stats(display=False):
+    display = request.args.get('display')
+    con = connect_to_db()
+    tournament_names = query_for_tournaments(con)
+    close_connection(con)
+    if display:
+        tournament_name = request.args.get('tour')
+        return render_template('tournament_stats.html', tournament_name=tournament_name,
+                               tournament_names=tournament_names, tournament=True, display=True)
+    else:
+        return render_template('tournament_stats.html', tournament_names=tournament_names, tournament=True)
 
 
 @app.route("/tools/match_stats", methods=["GET"])

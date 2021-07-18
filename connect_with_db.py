@@ -38,3 +38,8 @@ def close_connection(con):
     con.close()
 
 
+def query_for_tournaments(con):
+    cur = con.cursor()
+    cur.execute("SELECT distinct tournament_name from results order by 1")
+    tournaments_list = cur.fetchall()
+    return tournaments_list
