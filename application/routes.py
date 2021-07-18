@@ -1,10 +1,13 @@
-from application import app
+from application import app, db
 from flask import render_template, jsonify, request, Response
 from sofascore import get_match_stats, parse_match_stats
+from application.models import Results
+from connect_with_db import connect_to_db, close_connection, query_for_data
 import json
 
 
 data = [{"data": {"name": "Tomek"}}]
+
 
 @app.route("/")
 @app.route("/index")
@@ -15,7 +18,12 @@ def index():
 
 @app.route("/tools/global")
 def global_data():
-    return render_template('global_data.html', whole_data=True)
+    con = connect_to_db()
+    res = query_for_data(con)
+    results = res[0]
+    counts = res[1]
+    close_connection(con)
+    return render_template('global_data.html', results=results, counts=counts, whole_data=True)
 
 
 @app.route("/tools/tournament_stats")
@@ -43,3 +51,10 @@ def api(idx=None):
         return "Hello world!"
     else:
         return Response(json.dumps(data), mimetype="application/json")
+
+
+@app.route('/results')
+def user():
+    Results(tournament_name='Test', player1='player1', player2='player2', player1_score=3, player2_score=2).save()
+    results = Results.objects.all()
+    return render_template("results.html", results=results)
