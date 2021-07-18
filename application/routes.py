@@ -35,6 +35,7 @@ def tournament_stats(display=False):
     close_connection(con)
     if display:
         tournament_name = request.args.get('tour')
+        print(tournament_name)
         return render_template('tournament_stats.html', tournament_name=tournament_name,
                                tournament_names=tournament_names, tournament=True, display=True)
     else:
