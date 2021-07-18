@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+        <div class="row">
+           <div class="col-md-12 text_center">
+               <h4> Data from db.</h4>
+               <dl>
+                   <dt>Tournament name: {{ results.tournament_name }}</dt>
+                   <dt>Player1: {{ player1 }}</dt>
+                   <dt>Player2: {{ player2 }}<</dt>
+                   <dt>Player1_score: {{ player1_score }}<</dt>
+                   <dt>Player2_score: {{ player2_score }}<</dt>
+               </dl>
+           </div>
+        </div>
+
+{% endblock %}
+
+
