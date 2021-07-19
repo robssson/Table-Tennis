@@ -21,7 +21,7 @@ def global_data():
     con = connect_to_db()
     res = query_for_data(con)
     results = res[0]
-    results = results[:100]
+    results = results[:1000]
     counts = res[1]
     close_connection(con)
     return render_template('global_data.html', results=results, counts=counts, whole_data=True)
